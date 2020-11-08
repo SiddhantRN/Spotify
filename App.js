@@ -5,12 +5,16 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import SignIn from "./app/screens/SignIn";
 import AppNavigator from "./app/navigation/AppNavigator";
+import WelcomeScreen from "./app/screens/WelcomeScreen";
+import HomeScreen from "./app/screens/HomeScreen";
+import Test from "./app/screens/Test";
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <AppNavigator />
-    </NavigationContainer>
+    <Test />
+    // <NavigationContainer>
+    //   <AppNavigator />
+    // </NavigationContainer>
   );
 }
 

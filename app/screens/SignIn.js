@@ -3,12 +3,18 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  Image,
   TouchableOpacity,
   Text,
 } from "react-native";
 import * as AuthSession from "expo-auth-session";
 import { encode as btoa } from "base-64";
 import * as SecureStore from "expo-secure-store";
+import { LinearGradient } from "expo-linear-gradient";
+import Constants from "expo-constants";
+
+const screenHeight = Dimensions.get("window").height;
+const screenWidth = Dimensions.get("window").width;
 
 const scopesArr = [
   "user-read-email",
@@ -85,66 +91,83 @@ function SignIn({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.button}
-        delayPressIn={0}
-        onPress={() => {
-          getAuthorizationCode();
-        }}
-      >
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
-          Sign In
+    <LinearGradient colors={["#616161", "#212121"]} style={styles.container}>
+      <View style={styles.logo}>
+        <Image
+          source={require("../assets/logo.png")}
+          resizeMode={"contain"}
+          style={styles.image}
+        />
+        <Text
+          style={{
+            fontSize: 32,
+            fontWeight: "bold",
+            color: "#fff",
+            marginLeft: 10,
+          }}
+        >
+          Spotify
         </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button1}
-        delayPressIn={0}
-        onPress={() => {
-          getTokens();
-        }}
-      >
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
-          Get Tokens
+      </View>
+      <Text style={styles.text}>Manage your Spotify Playlists</Text>
+      <View style={styles.buttonBox}>
+        <Text style={{ fontSize: 24, fontWeight: "bold", color: "#fff" }}>
+          Sign in to your account
         </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button1}
-        delayPressIn={0}
-        onPress={() => {
-          getPlaylist();
-        }}
-      >
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
-          Get playlists
-        </Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          style={styles.button}
+          delayPressIn={0}
+          onPress={() => {
+            getAuthorizationCode();
+          }}
+        >
+          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
+            Sign In
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
     height: Dimensions.get("window").height * 0.08,
-    width: "50%",
-    borderRadius: 10,
+    width: "80%",
+    marginTop: 20,
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "lightpink",
+    backgroundColor: "#1DB954",
   },
-  button1: {
-    height: Dimensions.get("window").height * 0.08,
-    width: "50%",
-    marginTop: "5%",
-    borderRadius: 10,
-    justifyContent: "center",
+  buttonBox: {
+    position: "absolute",
+    width: "100%",
+    zIndex: 1,
+    bottom: 20,
     alignItems: "center",
-    backgroundColor: "lightpink",
   },
   container: {
     flex: 1,
-    justifyContent: "center",
+    marginTop: Constants.statusBarHeight,
+  },
+  image: {
+    height: screenHeight * 0.08,
+    width: screenHeight * 0.08,
+    marginLeft: 20,
+  },
+  logo: {
+    flexDirection: "row",
+    marginTop: "10%",
     alignItems: "center",
+  },
+  text: {
+    fontSize: 38,
+    fontWeight: "bold",
+    color: "#fff",
+    marginLeft: 20,
+    width: "70%",
+    marginTop: "10%",
   },
 });
 
