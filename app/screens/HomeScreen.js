@@ -12,6 +12,7 @@ import * as SecureStore from "expo-secure-store";
 import Constants from "expo-constants";
 import { AntDesign } from "@expo/vector-icons";
 import Item from "../components/Item";
+import refreshTokens from "../utility/RefreshTokens";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -22,9 +23,23 @@ function HomeScreen(props) {
     getPlaylist();
   }, []);
 
+  const checkSession = async () => {
+    const item = await SecureStore.getItemAsync("expirationTime");
+    const tokenExpirationTime = JSON.parse(item);
+    console.log(`expiration time is ${tokenExpirationTime}`);
+    if (new Date().getTime() > tokenExpirationTime) {
+      await refreshTokens();
+    } else {
+      return;
+    }
+    return;
+  };
+
   const getPlaylist = async () => {
+    await checkSession();
     try {
       let accessToken = await SecureStore.getItemAsync("accessToken");
+      console.log(`for api call ${JSON.parse(accessToken)}`);
       const response = await fetch("https://api.spotify.com/v1/me/playlists", {
         method: "GET",
         headers: {
@@ -50,16 +65,15 @@ function HomeScreen(props) {
         >
           Your Playlists
         </Text>
-        <TouchableOpacity style={styles.addPlaylist} delayPressIn={0}>
+        <TouchableOpacity
+          style={styles.addPlaylist}
+          delayPressIn={0}
+          onPress={() => console.log(`current time is ${new Date().getTime()}`)}
+        >
           <AntDesign name="plus" size={32} color="#fff" />
         </TouchableOpacity>
       </View>
       <View style={styles.playlist}>
-        {/* <ScrollView>
-          {playlists.map((item) => (
-            <Item name={item.name} key={item.id} />
-          ))}
-        </ScrollView> */}
         <FlatList
           data={playlists}
           keyExtractor={(item) => item.id}

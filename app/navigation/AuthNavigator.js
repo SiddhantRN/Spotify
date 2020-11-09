@@ -11,8 +11,9 @@ const AppNavigator = () => {
     <Stack.Navigator
       mode="card"
       screenOptions={{ headerShown: false }}
-      initialRouteName={"HomeScreen"}
+      initialRouteName={"SignIn"}
     >
+      <Stack.Screen name="SignIn" component={SignIn}></Stack.Screen>
       <Stack.Screen name="HomeScreen" component={HomeScreen}></Stack.Screen>
     </Stack.Navigator>
   );
