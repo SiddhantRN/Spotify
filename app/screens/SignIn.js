@@ -12,6 +12,7 @@ import { encode as btoa } from "base-64";
 import * as SecureStore from "expo-secure-store";
 import { LinearGradient } from "expo-linear-gradient";
 import Constants from "expo-constants";
+import UserId from "../utility/UserId";
 
 const screenHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
@@ -21,6 +22,7 @@ const scopesArr = [
   "playlist-modify-public",
   "playlist-read-private",
   "playlist-modify-private",
+  "user-read-private",
 ];
 const scopes = scopesArr.join(" ");
 
@@ -40,10 +42,11 @@ function SignIn({ navigation }) {
           "https://auth.expo.io/@v3n0m/Spotify",
       });
       authCode = result.params.code;
+      console.log(result);
     } catch (err) {
       console.error(err);
     }
-    getTokens();
+    await getTokens();
   };
 
   const setSecureItem = async (key, value) => {
@@ -76,13 +79,15 @@ function SignIn({ navigation }) {
       } = responseJson;
 
       const expirationTime = new Date().getTime() + expiresIn * 1000;
-      console.log(accessToken);
-      console.log(refreshToken);
-      console.log(expirationTime);
+      // console.log(accessToken);
+      // console.log(refreshToken);
+      // console.log(expirationTime);
+      // console.log(responseJson);
 
-      setSecureItem("accessToken", accessToken);
-      setSecureItem("refreshToken", refreshToken);
-      setSecureItem("expirationTime", expirationTime);
+      await setSecureItem("accessToken", accessToken);
+      await setSecureItem("refreshToken", refreshToken);
+      await setSecureItem("expirationTime", expirationTime);
+      await UserId();
     } catch (err) {
       console.error(err);
     }

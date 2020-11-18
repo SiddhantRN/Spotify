@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Spotify",
+    "name": "Spotify ",
     "slug": "Spotify",
     "version": "1.0.0",
     "scheme": "spotify",
@@ -22,6 +22,8 @@
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
-    }
+    },
+    "description": "Spotify platylist manager.",
+    "githubUrl": "https://github.com/SiddhantRN/Spotify"
   }
 }
